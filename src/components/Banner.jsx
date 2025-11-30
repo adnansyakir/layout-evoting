@@ -2,8 +2,8 @@ import logo from "../assets/logo.png";
 
 export default function Banner() {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center text-center md:text-left mt-1 px-6 mb-1">
-      <div className="md:w-1/3 flex justify-center md:justify-end mb-2 md:mb-0 -ml-96">
+    <div className="flex flex-col md:flex-row items-center text-center md:text-left mt-1 px-8 mb-1 ml-8 mr-12">
+      <div className="flex justify-center md:justify-start mb-2 md:mb-0">
         <img
           src={logo}
           alt="Banner Pemira"
@@ -11,8 +11,8 @@ export default function Banner() {
         />
       </div>
 
-      <div className="md:w-2/3 md:pl-4">
-        <h2 className="text-[24px] font-bold text-teal-900">
+      <div className="md:pl-10">
+        <h2 className="text-[24px] font-bold text-blue-900">
           E-Voting Pemilihan Umum Raya Politeknik Negeri Lampung
         </h2>
         <p className="text-gray-700 mt-2 italic text-[14px]">

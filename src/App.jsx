@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Sambutan from "./pages/Sambutan";
 import Kandidat from "./pages/Kandidat";
 import QuickCount from "./pages/QuickCount";
+import HasilQuickCount from "./pages/HasilQuickCount";
 import Galeri from "./pages/Galeri";
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/sambutan" element={<Sambutan />} />
           <Route path="/kandidat" element={<Kandidat />} />
           <Route path="/quickcount" element={<QuickCount />} />
+          <Route path="/hasil-quickcount" element={<HasilQuickCount />} />
           <Route path="/galeri" element={<Galeri />} />
         </Routes>
 

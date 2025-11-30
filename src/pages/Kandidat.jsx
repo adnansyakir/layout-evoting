@@ -73,10 +73,10 @@ export default function Kandidat() {
         >
           <span className="text-lg">Tidak Ada Foto</span>
         </div>
-        
+
         {/* Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
-        
+
         {/* Nomor Urut Badge */}
         <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 font-bold w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-2 border-white z-10">
           {data.nomor_urut || "0"}
@@ -102,8 +102,19 @@ export default function Kandidat() {
         )}
         <button className="w-full mt-2 py-2 bg-gray-50 hover:bg-blue-50 text-gray-600 hover:text-blue-600 font-semibold rounded-lg transition-colors text-sm flex items-center justify-center gap-2 group-hover:bg-blue-600 group-hover:text-white">
           <span>Lihat Visi & Misi</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
           </svg>
         </button>
       </div>
@@ -114,7 +125,9 @@ export default function Kandidat() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mb-4"></div>
-        <p className="text-gray-600 font-medium animate-pulse">Memuat data kandidat...</p>
+        <p className="text-gray-600 font-medium animate-pulse">
+          Memuat data kandidat...
+        </p>
       </div>
     );
   }
@@ -124,7 +137,9 @@ export default function Kandidat() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center p-8 bg-white rounded-2xl shadow-xl max-w-md">
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Terjadi Kesalahan</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
+            Terjadi Kesalahan
+          </h3>
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={fetchData}
@@ -194,8 +209,15 @@ export default function Kandidat() {
                 </>
               ) : (
                 <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-                  <img src="/img/empty-box.png" alt="Empty" className="w-32 h-32 mx-auto mb-4 opacity-50" onError={(e) => e.target.style.display = 'none'} />
-                  <p className="text-xl text-gray-500 font-medium">Belum ada kandidat PRESMA yang terdaftar.</p>
+                  <img
+                    src="/img/empty-box.png"
+                    alt="Empty"
+                    className="w-32 h-32 mx-auto mb-4 opacity-50"
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                  <p className="text-xl text-gray-500 font-medium">
+                    Belum ada kandidat PRESMA yang terdaftar.
+                  </p>
                 </div>
               )}
             </div>
@@ -206,7 +228,10 @@ export default function Kandidat() {
               {kandidatGubmaGrouped.length > 0 ? (
                 <>
                   {kandidatGubmaGrouped.map((jur, i) => (
-                    <div key={i} className="mb-16 bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                    <div
+                      key={i}
+                      className="mb-16 bg-white rounded-3xl p-8 shadow-sm border border-gray-100"
+                    >
                       <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-4">
                         <div className="w-2 h-8 bg-blue-600 rounded-full"></div>
                         <h3 className="text-2xl font-bold text-gray-800">
@@ -226,7 +251,9 @@ export default function Kandidat() {
                 </>
               ) : (
                 <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-                  <p className="text-xl text-gray-500 font-medium">Belum ada kandidat GUBMA yang terdaftar.</p>
+                  <p className="text-xl text-gray-500 font-medium">
+                    Belum ada kandidat GUBMA yang terdaftar.
+                  </p>
                 </div>
               )}
             </div>
@@ -237,18 +264,29 @@ export default function Kandidat() {
       {/* Modern Modal */}
       {selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <div 
+          <div
             className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"
             onClick={() => setSelected(null)}
           ></div>
-          
+
           <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-all scale-100">
             <button
               onClick={() => setSelected(null)}
               className="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-500 hover:text-red-500 p-2 rounded-full transition-colors shadow-sm backdrop-blur-sm"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
@@ -269,7 +307,9 @@ export default function Kandidat() {
                   ) : null}
                   <div
                     className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500 font-medium"
-                    style={{ display: selected.foto_pasangan ? "none" : "flex" }}
+                    style={{
+                      display: selected.foto_pasangan ? "none" : "flex",
+                    }}
                   >
                     Tidak Ada Foto
                   </div>
@@ -278,42 +318,58 @@ export default function Kandidat() {
                   </div>
                 </div>
 
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl font-bold text-gray-900">
                   {selected.nama_ketua}
                 </h2>
-                <div className="text-gray-400 font-medium text-sm mb-1">&</div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                {selected.npm_ketua && (
+                  <p className="text-sm text-gray-500 font-mono mb-2">
+                    ({selected.npm_ketua})
+                  </p>
+                )}
+                <div className="text-gray-400 font-medium text-sm mb-2">&</div>
+                <h2 className="text-2xl font-bold text-gray-900">
                   {selected.nama_wakil}
                 </h2>
-
-                {selected.npm_ketua && selected.npm_wakil && (
-                  <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 text-sm text-gray-600 mb-4 w-full">
-                    <div className="flex justify-between mb-1">
-                      <span>Ketua:</span>
-                      <span className="font-mono font-bold">{selected.npm_ketua}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Wakil:</span>
-                      <span className="font-mono font-bold">{selected.npm_wakil}</span>
-                    </div>
-                  </div>
-                )}
-
-                {selected.jurusan && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                    {selected.jurusan.nama_jurusan}
-                  </span>
+                {selected.npm_wakil && (
+                  <p className="text-sm text-gray-500 font-mono mb-4">
+                    ({selected.npm_wakil})
+                  </p>
                 )}
               </div>
 
               {/* Right Column: Details */}
               <div className="md:w-3/5 p-8 md:overflow-y-auto max-h-[90vh]">
+                {/* Jurusan untuk Gubernur */}
+                {selected.jurusan && (
+                  <div className="mb-6 text-center">
+                    <span className="inline-flex items-center px-6 py-3 rounded-full text-2xl font-bold bg-blue-100 text-blue-800">
+                      {selected.jurusan.nama_jurusan}
+                    </span>
+                  </div>
+                )}
+
                 <div className="mb-8">
                   <h3 className="flex items-center text-xl font-bold text-gray-900 mb-4">
                     <span className="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
                       </svg>
                     </span>
                     Visi
@@ -326,8 +382,19 @@ export default function Kandidat() {
                 <div className="mb-8">
                   <h3 className="flex items-center text-xl font-bold text-gray-900 mb-4">
                     <span className="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                        />
                       </svg>
                     </span>
                     Misi
@@ -338,7 +405,9 @@ export default function Kandidat() {
                         {selected.misi}
                       </div>
                     ) : (
-                      <p className="text-gray-500 italic">Tidak ada data misi.</p>
+                      <p className="text-gray-500 italic">
+                        Tidak ada data misi.
+                      </p>
                     )}
                   </div>
                 </div>
@@ -346,8 +415,19 @@ export default function Kandidat() {
                 <div>
                   <h3 className="flex items-center text-xl font-bold text-gray-900 mb-4">
                     <span className="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        />
                       </svg>
                     </span>
                     Program Kerja
@@ -363,7 +443,9 @@ export default function Kandidat() {
                         </li>
                       ))
                     ) : (
-                      <li className="text-gray-500 italic pl-9">Tidak ada data program kerja.</li>
+                      <li className="text-gray-500 italic pl-9">
+                        Tidak ada data program kerja.
+                      </li>
                     )}
                   </ul>
                 </div>

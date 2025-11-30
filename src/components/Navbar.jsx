@@ -3,16 +3,14 @@ import { Home } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-teal-800 text-white flex justify-between items-center px-6 py-3">
+    <nav className="bg-blue-800 text-white flex justify-between items-center px-6 py-3">
       <div className="flex items-center gap-2">
         {/* <img
           src="https://via.placeholder.com/50"
           alt="Logo"
           className="h-10 w-10 rounded-full"
         /> */}
-        <h1 className="font-bold text-lg ml-20">
-          PEMIRA POLINELA
-        </h1>
+        <h1 className="font-bold text-lg ml-20">PEMIRA POLINELA</h1>
       </div>
       <ul className="flex gap-8 mr-20 -ml-4 font-bold text-md">
         <li className="flex items-center gap-1">
@@ -37,9 +35,9 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <a href="#" className="hover:text-yellow-300">
+          <Link to="/hasil-quickcount" className="hover:text-yellow-300">
             Hasil Quick Count
-          </a>
+          </Link>
         </li>
         <li>
           <Link to="/galeri" className="hover:text-yellow-300">

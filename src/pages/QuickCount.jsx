@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import {
   PieChart,
   Pie,
@@ -7,81 +7,277 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { suaraAPI } from "../services/api";
+
+const COLORS = [
+  "#FCA5A5",
+  "#86EFAC",
+  "#93C5FD",
+  "#FDE047",
+  "#C4B5FD",
+  "#F9A8D4",
+];
 
 export default function QuickCount() {
-  const data = [
-    { name: "Rahmad & Rayhan", value: 45.45 },
-    { name: "Bagus & Iskandar", value: 54.55 },
-  ];
+  const [presmaData, setPresmaData] = useState({
+    kandidats: [],
+    total_suara: 0,
+  });
+  const [gubmaData, setGubmaData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const COLORS = ["#FCA5A5", "#93C5FD"];
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  return (
-    <div className="min-h-screen bg-gray-100 py-12 px-6">
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10">
-        <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">
-          Quick Count E-Voting
-        </h1>
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-10">
-          Calon Presiden dan Wakil Presiden Mahasiswa
-        </h2>
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        <div className="flex flex-wrap justify-center items-center gap-10">
-          {/* === CARD PASLON 01 === */}
-          <div className="bg-white rounded-xl shadow-md p-4 w-80 text-center">
-            <img
-              src="/img/paslon1.png"
-              alt="Bagus & Iskandar"
-              className="rounded-xl w-full h-56 object-cover mb-4"
-            />
-            <p className="font-semibold text-gray-800">Bagus Eka Saputra</p>
-            <p className="font-semibold text-gray-800">&</p>
-            <p className="font-semibold text-gray-800">Iskandar Ibnu Pailis</p>
-            <p className="mt-2 text-sm font-bold text-gray-600">
-              (Peternakan / Ekonomi dan Bisnis)
-            </p>
-          </div>
+      const response = await suaraAPI.getResultsPublic();
 
-          {/* === PIE CHART === */}
-          <div className="bg-white rounded-xl shadow-md p-6 w-[360px] h-[360px] flex flex-col items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
+      if (response.data) {
+        setPresmaData(
+          response.data.presma || { kandidats: [], total_suara: 0 }
+        );
+        setGubmaData(response.data.gubma || []);
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError("Gagal memuat data quick count");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Render Card Kandidat dengan persentase dan outline sesuai warna
+  const renderCard = (kandidat, index = 0, totalKandidat = 1) => {
+    // Jika hanya 1 kandidat, warna biru. Jika lebih, sesuai warna donut
+    const borderColor =
+      totalKandidat === 1 ? "#3B82F6" : COLORS[index % COLORS.length];
+
+    return (
+      <div
+        key={kandidat.id}
+        className="bg-white rounded-xl shadow-md p-4 w-80 text-center border-2"
+        style={{ borderColor: borderColor }}
+      >
+        <img
+          src={kandidat.foto_pasangan || "/img/default.png"}
+          alt={kandidat.nama_ketua}
+          className="rounded-xl w-full h-56 object-cover mb-4"
+          onError={(e) => {
+            e.target.src = "/img/default.png";
+          }}
+        />
+        <p className="font-semibold text-gray-800">{kandidat.nama_ketua}</p>
+        <p className="font-semibold text-gray-800">&</p>
+        <p className="font-semibold text-gray-800">{kandidat.nama_wakil}</p>
+        {(kandidat.npm_ketua || kandidat.npm_wakil) && (
+          <p className="mt-2 text-sm font-bold text-gray-600">
+            ({kandidat.npm_ketua || "-"} / {kandidat.npm_wakil || "-"})
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  // Render Pie Chart dengan data real
+  const renderPieChart = (kandidats) => {
+    const chartData = kandidats.map((k) => ({
+      name: `${k.nama_ketua}`,
+      value: k.persentase || 0,
+      suara: k.jumlah_suara || 0,
+    }));
+
+    const totalSuara = kandidats.reduce(
+      (sum, k) => sum + (k.jumlah_suara || 0),
+      0
+    );
+
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6 w-[380px] flex flex-col items-center justify-center">
+        {totalSuara > 0 ? (
+          <>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie
-                  data={data}
+                  data={chartData}
                   dataKey="value"
                   cx="50%"
                   cy="50%"
+                  innerRadius={60}
                   outerRadius={100}
-                  label={({ name, value }) => `${value}%`}
+                  paddingAngle={3}
+                  label={({ value }) => `${value}%`}
+                  labelLine={{ stroke: "#666", strokeWidth: 1 }}
                 >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                      stroke="#fff"
+                      strokeWidth={2}
+                    />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip
+                  formatter={(value, name, props) => [
+                    `${value}% (${props.payload.suara} suara)`,
+                    name,
+                  ]}
+                  contentStyle={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
-          </div>
 
-          {/* === CARD PASLON 02 === */}
-          <div className="bg-white rounded-xl shadow-md p-4 w-80 text-center">
-            <img
-              src="/img/paslon2.png"
-              alt="Rahmad & Rayhan"
-              className="rounded-xl w-full h-56 object-cover mb-4"
-            />
-            <p className="font-semibold text-gray-800">Rahmad Perwira Adha</p>
-            <p className="font-semibold text-gray-800">&</p>
-            <p className="font-semibold text-gray-800">
-              Rayhan Annanda Pratama
-            </p>
-            <p className="mt-2 text-sm font-bold text-gray-600">
-              (Peternakan / Teknik)
-            </p>
-          </div>
+            {/* Legend Custom - Nama Pasangan */}
+            <div className="mt-4 w-full space-y-2">
+              {kandidats.map((k, index) => (
+                <div
+                  key={k.id}
+                  className="flex items-center justify-center gap-3"
+                >
+                  <div
+                    className="w-4 h-4 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  ></div>
+                  <p className="text-sm text-gray-700 font-bold">
+                    {k.nama_ketua} & {k.nama_wakil}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-gray-500">Belum ada suara</p>
+        )}
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-12 px-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-800 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Memuat data...</p>
         </div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-12 px-6 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">{error}</p>
+          <button
+            onClick={fetchData}
+            className="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700"
+          >
+            Coba Lagi
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const presmaKandidats = presmaData.kandidats || [];
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-12 px-6">
+      {/* PRESMA Section */}
+      {presmaKandidats.length > 0 && (
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 mb-10">
+          <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">
+            Quick Count E-Voting
+          </h1>
+          <h2 className="text-2xl font-bold text-center text-gray-700 mb-10">
+            Calon Presiden dan Wakil Presiden Mahasiswa
+          </h2>
+
+          {presmaKandidats.length === 1 ? (
+            <div className="flex justify-center">
+              {renderCard(presmaKandidats[0], 0, presmaKandidats.length)}
+            </div>
+          ) : presmaKandidats.length === 2 ? (
+            <div className="flex flex-wrap justify-center items-center gap-10">
+              {renderCard(presmaKandidats[0], 0, presmaKandidats.length)}
+              {renderPieChart(presmaKandidats)}
+              {renderCard(presmaKandidats[1], 1, presmaKandidats.length)}
+            </div>
+          ) : (
+            <div className="flex flex-wrap justify-center items-center gap-10">
+              {presmaKandidats.map((k, i) =>
+                renderCard(k, i, presmaKandidats.length)
+              )}
+              {presmaKandidats.length > 1 && renderPieChart(presmaKandidats)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* GUBMA Section - Per Jurusan */}
+      {gubmaData.length > 0 && (
+        <>
+          <div className="max-w-7xl mx-auto mb-10">
+            <div className="border-t-4 border-gray-400 w-3/4 mx-auto"></div>
+          </div>
+
+          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10">
+            <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">
+              Quick Count E-Voting
+            </h1>
+            <h2 className="text-2xl font-bold text-center text-gray-700 mb-10">
+              Calon Gubernur dan Wakil Gubernur Mahasiswa
+            </h2>
+
+            {gubmaData.map((item, idx) => (
+              <div key={idx} className="mb-16 last:mb-0">
+                <div className="border-t-2 border-gray-300 w-3/4 mx-auto mb-6"></div>
+                <h3 className="text-xl font-bold text-center text-gray-700 mb-6">
+                  Jurusan {item.jurusan_nama}
+                </h3>
+
+                {item.kandidats.length === 1 ? (
+                  <div className="flex justify-center">
+                    {renderCard(item.kandidats[0], 0, item.kandidats.length)}
+                  </div>
+                ) : item.kandidats.length === 2 ? (
+                  <div className="flex flex-wrap justify-center items-center gap-10">
+                    {renderCard(item.kandidats[0], 0, item.kandidats.length)}
+                    {renderPieChart(item.kandidats)}
+                    {renderCard(item.kandidats[1], 1, item.kandidats.length)}
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap justify-center items-center gap-10">
+                    {item.kandidats.map((k, i) =>
+                      renderCard(k, i, item.kandidats.length)
+                    )}
+                    {item.kandidats.length > 1 &&
+                      renderPieChart(item.kandidats)}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Jika tidak ada data */}
+      {presmaKandidats.length === 0 && gubmaData.length === 0 && (
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
+          <p className="text-gray-600">Belum ada data kandidat.</p>
+        </div>
+      )}
     </div>
   );
 }
