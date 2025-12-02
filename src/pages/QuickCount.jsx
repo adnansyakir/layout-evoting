@@ -61,17 +61,24 @@ export default function QuickCount() {
     return (
       <div
         key={kandidat.id}
-        className="bg-white rounded-xl shadow-md p-4 w-80 text-center border-2"
+        className="bg-white rounded-xl shadow-md p-4 w-80 text-center border-2 relative"
         style={{ borderColor: borderColor }}
       >
-        <img
-          src={kandidat.foto_pasangan || "/img/default.png"}
-          alt={kandidat.nama_ketua}
-          className="rounded-xl w-full h-56 object-cover mb-4"
-          onError={(e) => {
-            e.target.src = "/img/default.png";
-          }}
-        />
+        {/* Container gambar dengan posisi relative untuk badge */}
+        <div className="relative">
+          {/* Nomor Urut Badge - sama seperti di Kandidat */}
+          <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 font-bold w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-2 border-white z-10">
+            {kandidat.nomor_urut || "0"}
+          </div>
+          <img
+            src={kandidat.foto_pasangan || "/img/default.png"}
+            alt={kandidat.nama_ketua}
+            className="rounded-xl w-full h-56 object-cover mb-4"
+            onError={(e) => {
+              e.target.src = "/img/default.png";
+            }}
+          />
+        </div>
         <p className="font-semibold text-gray-800">{kandidat.nama_ketua}</p>
         <p className="font-semibold text-gray-800">&</p>
         <p className="font-semibold text-gray-800">{kandidat.nama_wakil}</p>
@@ -87,7 +94,7 @@ export default function QuickCount() {
   // Render Pie Chart dengan data real
   const renderPieChart = (kandidats) => {
     const chartData = kandidats.map((k) => ({
-      name: `${k.nama_ketua}`,
+      name: `No. ${k.nomor_urut} - ${k.nama_ketua} & ${k.nama_wakil}`,
       value: k.persentase || 0,
       suara: k.jumlah_suara || 0,
     }));
@@ -150,7 +157,7 @@ export default function QuickCount() {
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   ></div>
                   <p className="text-sm text-gray-700 font-bold">
-                    {k.nama_ketua} & {k.nama_wakil}
+                    No. {k.nomor_urut} - {k.nama_ketua} & {k.nama_wakil}
                   </p>
                 </div>
               ))}
