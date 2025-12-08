@@ -102,6 +102,28 @@ export default function HasilQuickCount() {
   const presmaKandidats = presmaData.kandidats || [];
   const presmaWinner = findWinner(presmaKandidats);
 
+  // Custom order untuk jurusan
+  const jurusanOrder = [
+    "Jurusan Budidaya Tanaman Pangan",
+    "Jurusan Budidaya Tanaman Perkebunan",
+    "Jurusan Teknologi Pertanian",
+    "Jurusan Peternakan",
+    "Jurusan Ekonomi dan Bisnis",
+    "Jurusan Teknik",
+    "Jurusan Perikanan dan Kelautan",
+    "Jurusan Teknologi Informasi",
+  ];
+
+  const sortedGubmaData = [...gubmaData].sort((a, b) => {
+    const indexA = jurusanOrder.indexOf(a.jurusan_nama);
+    const indexB = jurusanOrder.indexOf(b.jurusan_nama);
+    if (indexA === -1 && indexB === -1)
+      return a.jurusan_nama?.localeCompare(b.jurusan_nama);
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-6">
       {/* PRESMA Section */}
@@ -125,7 +147,7 @@ export default function HasilQuickCount() {
       )}
 
       {/* GUBMA Section - Per Jurusan */}
-      {gubmaData.length > 0 && (
+      {sortedGubmaData.length > 0 && (
         <>
           <div className="max-w-7xl mx-auto mb-10">
             <div className="border-t-4 border-gray-800 w-3/4 mx-auto"></div>
@@ -141,7 +163,7 @@ export default function HasilQuickCount() {
               </h2>
             </div>
 
-            {gubmaData.map((item, idx) => {
+            {sortedGubmaData.map((item, idx) => {
               const winner = findWinner(item.kandidats);
 
               return (
@@ -165,7 +187,7 @@ export default function HasilQuickCount() {
       )}
 
       {/* Jika tidak ada data */}
-      {presmaKandidats.length === 0 && gubmaData.length === 0 && (
+      {presmaKandidats.length === 0 && sortedGubmaData.length === 0 && (
         <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
           <p className="text-gray-600">Belum ada data hasil voting.</p>
         </div>

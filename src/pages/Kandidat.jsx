@@ -41,13 +41,34 @@ export default function Kandidat() {
     }
   };
 
+  // Custom order untuk jurusan
+  const jurusanOrder = [
+    "Jurusan Budidaya Tanaman Pangan",
+    "Jurusan Budidaya Tanaman Perkebunan",
+    "Jurusan Teknologi Pertanian",
+    "Jurusan Peternakan",
+    "Jurusan Ekonomi dan Bisnis",
+    "Jurusan Teknik",
+    "Jurusan Perikanan dan Kelautan",
+    "Jurusan Teknologi Informasi",
+  ];
+
   const kandidatGubmaGrouped = jurusans
     .map((jurusan) => ({
       jurusan: jurusan.nama_jurusan,
       jurusan_id: jurusan.id,
       data: kandidatGubma.filter((k) => k.jurusan_id === jurusan.id),
     }))
-    .filter((group) => group.data.length > 0);
+    .filter((group) => group.data.length > 0)
+    .sort((a, b) => {
+      const indexA = jurusanOrder.indexOf(a.jurusan);
+      const indexB = jurusanOrder.indexOf(b.jurusan);
+      if (indexA === -1 && indexB === -1)
+        return a.jurusan?.localeCompare(b.jurusan);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
 
   const renderCard = (data) => (
     <div
@@ -235,7 +256,7 @@ export default function Kandidat() {
                       <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-4">
                         <div className="w-2 h-8 bg-blue-600 rounded-full"></div>
                         <h3 className="text-2xl font-bold text-gray-800">
-                          Jurusan {jur.jurusan}
+                          {jur.jurusan}
                         </h3>
                       </div>
                       <div className="flex flex-wrap justify-center gap-8">

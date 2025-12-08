@@ -66,10 +66,11 @@ export default function QuickCount() {
       >
         {/* Container gambar dengan posisi relative untuk badge */}
         <div className="relative">
-          {/* Nomor Urut Badge - sama seperti di Kandidat */}
-          <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 font-bold w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-2 border-white z-10">
-            {kandidat.nomor_urut || "0"}
-          </div>
+          {kandidat.nomor_urut && (
+            <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 font-bold w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-2 border-white z-10">
+              {kandidat.nomor_urut}
+            </div>
+          )}
           <img
             src={kandidat.foto_pasangan || "/img/default.png"}
             alt={kandidat.nama_ketua}
@@ -94,7 +95,9 @@ export default function QuickCount() {
   // Render Pie Chart dengan data real
   const renderPieChart = (kandidats) => {
     const chartData = kandidats.map((k) => ({
-      name: `No. ${k.nomor_urut} - ${k.nama_ketua} & ${k.nama_wakil}`,
+      name: k.nomor_urut
+        ? `No. ${k.nomor_urut} - ${k.nama_ketua} & ${k.nama_wakil}`
+        : `${k.nama_ketua} & ${k.nama_wakil}`,
       value: k.persentase || 0,
       suara: k.jumlah_suara || 0,
     }));
@@ -131,15 +134,24 @@ export default function QuickCount() {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value, name, props) => [
-                    `${value}% (${props.payload.suara} suara)`,
-                    name,
-                  ]}
-                  contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #ddd",
-                    borderRadius: "8px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-center">
+                          <p className="font-bold text-gray-800 text-sm">
+                            {data.name}
+                          </p>
+                          <p className="text-gray-600 text-sm mt-1">
+                            {data.value}%
+                          </p>
+                          <p className="text-gray-600 text-sm">
+                            ({data.suara} suara)
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
                   }}
                 />
               </PieChart>
@@ -150,14 +162,15 @@ export default function QuickCount() {
               {kandidats.map((k, index) => (
                 <div
                   key={k.id}
-                  className="flex items-center justify-center gap-3"
+                  className="flex items-center justify-center gap-2"
                 >
                   <div
                     className="w-4 h-4 rounded-full flex-shrink-0"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   ></div>
                   <p className="text-sm text-gray-700 font-bold">
-                    No. {k.nomor_urut} - {k.nama_ketua} & {k.nama_wakil}
+                    {k.nomor_urut ? `No. ${k.nomor_urut} - ` : ""}
+                    {k.nama_ketua} & {k.nama_wakil}
                   </p>
                 </div>
               ))}
@@ -199,6 +212,28 @@ export default function QuickCount() {
 
   const presmaKandidats = presmaData.kandidats || [];
 
+  // Custom order untuk jurusan
+  const jurusanOrder = [
+    "Jurusan Budidaya Tanaman Pangan",
+    "Jurusan Budidaya Tanaman Perkebunan",
+    "Jurusan Teknologi Pertanian",
+    "Jurusan Peternakan",
+    "Jurusan Ekonomi dan Bisnis",
+    "Jurusan Teknik",
+    "Jurusan Perikanan dan Kelautan",
+    "Jurusan Teknologi Informasi",
+  ];
+
+  const sortedGubmaData = [...gubmaData].sort((a, b) => {
+    const indexA = jurusanOrder.indexOf(a.jurusan_nama);
+    const indexB = jurusanOrder.indexOf(b.jurusan_nama);
+    if (indexA === -1 && indexB === -1)
+      return a.jurusan_nama?.localeCompare(b.jurusan_nama);
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-6">
       {/* PRESMA Section */}
@@ -233,7 +268,7 @@ export default function QuickCount() {
       )}
 
       {/* GUBMA Section - Per Jurusan */}
-      {gubmaData.length > 0 && (
+      {sortedGubmaData.length > 0 && (
         <>
           <div className="max-w-7xl mx-auto mb-10">
             <div className="border-t-4 border-gray-400 w-3/4 mx-auto"></div>
@@ -247,11 +282,11 @@ export default function QuickCount() {
               Calon Gubernur dan Wakil Gubernur Mahasiswa
             </h2>
 
-            {gubmaData.map((item, idx) => (
+            {sortedGubmaData.map((item, idx) => (
               <div key={idx} className="mb-16 last:mb-0">
                 <div className="border-t-2 border-gray-300 w-3/4 mx-auto mb-6"></div>
                 <h3 className="text-xl font-bold text-center text-gray-700 mb-6">
-                  Jurusan {item.jurusan_nama}
+                  {item.jurusan_nama}
                 </h3>
 
                 {item.kandidats.length === 1 ? (
@@ -280,7 +315,7 @@ export default function QuickCount() {
       )}
 
       {/* Jika tidak ada data */}
-      {presmaKandidats.length === 0 && gubmaData.length === 0 && (
+      {presmaKandidats.length === 0 && sortedGubmaData.length === 0 && (
         <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
           <p className="text-gray-600">Belum ada data kandidat.</p>
         </div>
