@@ -2,14 +2,14 @@ import wadir from "../assets/wadir.png";
 
 export default function Sambutan() {
   return (
-    <div className="p-6">
-      <div className="bg-white rounded-xl shadow-md flex p-6 gap-6 mr-24 ml-24">
+    <div className="px-4 sm:px-6 md:px-24 py-6">
+      <div className="bg-white rounded-xl shadow-md flex flex-col md:flex-row p-4 sm:p-6 gap-4 sm:gap-6">
         <img
           src={wadir}
           alt="Wakil Direktur Bidang Kemahasiswaan"
-          className="h-64 w-48 object-cover rounded-lg"
+          className="h-40 w-32 sm:h-64 sm:w-48 object-cover rounded-lg mx-auto md:mx-0"
         />
-        <div className="text-justify leading-relaxed">
+        <div className="text-justify leading-relaxed mt-4 md:mt-0">
           <p>Assalamualaikum warahmatullahi wabarakatuh,</p>
           <p className="mt-3">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

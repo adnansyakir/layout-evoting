@@ -1,6 +1,6 @@
 export default function Alur() {
   return (
-    <section className="px-8 py-6">
+    <section className="px-4 sm:px-8 py-4 sm:py-6">
       <h3 className="bg-blue-700 text-white text-lg font-semibold px-4 py-2 w-fit rounded">
         ALUR PEMILIHAN UMUM RAYA 2025
       </h3>

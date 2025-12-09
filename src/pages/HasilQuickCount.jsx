@@ -125,10 +125,10 @@ export default function HasilQuickCount() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-6">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 md:px-10">
       {/* PRESMA Section */}
       {presmaKandidats.length > 0 && (
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-10 mb-10">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-8 md:p-10 mb-6 sm:mb-10">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-extrabold text-gray-800 mb-2">
               📊 Hasil Quick Count E-Voting
@@ -149,11 +149,11 @@ export default function HasilQuickCount() {
       {/* GUBMA Section - Per Jurusan */}
       {sortedGubmaData.length > 0 && (
         <>
-          <div className="max-w-7xl mx-auto mb-10">
-            <div className="border-t-4 border-gray-800 w-3/4 mx-auto"></div>
+          <div className="max-w-7xl mx-auto mb-6 sm:mb-10">
+            <div className="border-t-4 border-gray-800 w-2/3 sm:w-3/4 mx-auto"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-10">
+          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-8 md:p-10">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-extrabold text-gray-800 mb-2">
                 📊 Hasil Quick Count E-Voting
@@ -167,10 +167,10 @@ export default function HasilQuickCount() {
               const winner = findWinner(item.kandidats);
 
               return (
-                <div key={idx} className="mb-16 last:mb-0">
-                  <div className="border-t border-gray-300 w-1/2 mx-auto mb-6"></div>
-                  <h3 className="text-xl font-bold text-center text-gray-800 mb-6">
-                    Jurusan {item.jurusan_nama}
+                <div key={idx} className="mb-10 sm:mb-16 last:mb-0">
+                  <div className="border-t border-gray-300 w-1/2 mx-auto mb-4 sm:mb-6"></div>
+                  <h3 className="text-lg sm:text-xl font-bold text-center text-gray-800 mb-4 sm:mb-6">
+                    {item.jurusan_nama}
                   </h3>
 
                   {/* Hanya tampilkan 1 card pemenang */}
@@ -188,7 +188,7 @@ export default function HasilQuickCount() {
 
       {/* Jika tidak ada data */}
       {presmaKandidats.length === 0 && sortedGubmaData.length === 0 && (
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-4 sm:p-8 md:p-10 text-center">
           <p className="text-gray-600">Belum ada data hasil voting.</p>
         </div>
       )}

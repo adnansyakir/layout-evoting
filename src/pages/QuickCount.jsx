@@ -235,10 +235,10 @@ export default function QuickCount() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-6">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 md:px-10">
       {/* PRESMA Section */}
       {presmaKandidats.length > 0 && (
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 mb-10">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-4 sm:p-8 md:p-10 mb-6 sm:mb-10">
           <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">
             Quick Count E-Voting
           </h1>
@@ -251,13 +251,13 @@ export default function QuickCount() {
               {renderCard(presmaKandidats[0], 0, presmaKandidats.length)}
             </div>
           ) : presmaKandidats.length === 2 ? (
-            <div className="flex flex-wrap justify-center items-center gap-10">
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 md:gap-10">
               {renderCard(presmaKandidats[0], 0, presmaKandidats.length)}
               {renderPieChart(presmaKandidats)}
               {renderCard(presmaKandidats[1], 1, presmaKandidats.length)}
             </div>
           ) : (
-            <div className="flex flex-wrap justify-center items-center gap-10">
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 md:gap-10">
               {presmaKandidats.map((k, i) =>
                 renderCard(k, i, presmaKandidats.length)
               )}
@@ -270,11 +270,11 @@ export default function QuickCount() {
       {/* GUBMA Section - Per Jurusan */}
       {sortedGubmaData.length > 0 && (
         <>
-          <div className="max-w-7xl mx-auto mb-10">
-            <div className="border-t-4 border-gray-400 w-3/4 mx-auto"></div>
+          <div className="max-w-7xl mx-auto mb-6 sm:mb-10">
+            <div className="border-t-4 border-gray-400 w-2/3 sm:w-3/4 mx-auto"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10">
+          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-4 sm:p-8 md:p-10">
             <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">
               Quick Count E-Voting
             </h1>
@@ -283,9 +283,9 @@ export default function QuickCount() {
             </h2>
 
             {sortedGubmaData.map((item, idx) => (
-              <div key={idx} className="mb-16 last:mb-0">
-                <div className="border-t-2 border-gray-300 w-3/4 mx-auto mb-6"></div>
-                <h3 className="text-xl font-bold text-center text-gray-700 mb-6">
+              <div key={idx} className="mb-10 sm:mb-16 last:mb-0">
+                <div className="border-t-2 border-gray-300 w-2/3 sm:w-3/4 mx-auto mb-4 sm:mb-6"></div>
+                <h3 className="text-lg sm:text-xl font-bold text-center text-gray-700 mb-4 sm:mb-6">
                   {item.jurusan_nama}
                 </h3>
 
@@ -294,13 +294,13 @@ export default function QuickCount() {
                     {renderCard(item.kandidats[0], 0, item.kandidats.length)}
                   </div>
                 ) : item.kandidats.length === 2 ? (
-                  <div className="flex flex-wrap justify-center items-center gap-10">
+                  <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 md:gap-10">
                     {renderCard(item.kandidats[0], 0, item.kandidats.length)}
                     {renderPieChart(item.kandidats)}
                     {renderCard(item.kandidats[1], 1, item.kandidats.length)}
                   </div>
                 ) : (
-                  <div className="flex flex-wrap justify-center items-center gap-10">
+                  <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 md:gap-10">
                     {item.kandidats.map((k, i) =>
                       renderCard(k, i, item.kandidats.length)
                     )}
@@ -316,7 +316,7 @@ export default function QuickCount() {
 
       {/* Jika tidak ada data */}
       {presmaKandidats.length === 0 && sortedGubmaData.length === 0 && (
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-4 sm:p-8 md:p-10 text-center">
           <p className="text-gray-600">Belum ada data kandidat.</p>
         </div>
       )}

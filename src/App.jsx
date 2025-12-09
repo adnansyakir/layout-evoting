@@ -28,7 +28,7 @@ export default function App() {
             element={
               <>
                 <ImageSlider />
-                <main className="flex flex-col md:flex-row gap-6 px-8 py-6 ml-8 mr-12">
+                <main className="flex flex-col md:flex-row gap-6 px-4 sm:px-8 py-4 sm:py-6 md:ml-8 md:mr-12">
                   <div className="flex-1">
                     <Syarat />
                     <Alur />

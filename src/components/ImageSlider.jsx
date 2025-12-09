@@ -17,11 +17,11 @@ export default function ImageSlider() {
   }, []);
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto overflow-hidden rounded-xl shadow-lg mt-8">
+    <div className="relative w-full max-w-7xl mx-auto overflow-hidden rounded-2xl sm:rounded-xl shadow-lg mt-8 px-3 sm:px-4">
       <img
         src={images[index]}
         alt={`slide-${index}`}
-        className="w-full h-[450px] object-cover transition-all duration-700"
+        className="w-full h-[160px] sm:h-[260px] md:h-[350px] lg:h-[450px] object-cover transition-all duration-700 rounded-2xl sm:rounded-xl"
       />
     </div>
   );

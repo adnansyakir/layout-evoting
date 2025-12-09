@@ -174,7 +174,7 @@ export default function Kandidat() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 font-sans">
+    <div className="bg-gray-50 min-h-screen py-8 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -219,7 +219,7 @@ export default function Kandidat() {
             <div className="animate-fade-in-up">
               {kandidatPresma.length > 0 ? (
                 <>
-                  <div className="flex flex-wrap justify-center gap-8 mb-12">
+                  <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-12">
                     {kandidatPresma.map(renderCard)}
                   </div>
                   <div className="text-center">
@@ -251,15 +251,15 @@ export default function Kandidat() {
                   {kandidatGubmaGrouped.map((jur, i) => (
                     <div
                       key={i}
-                      className="mb-16 bg-white rounded-3xl p-8 shadow-sm border border-gray-100"
+                      className="mb-8 sm:mb-16 bg-white rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-100"
                     >
-                      <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-4">
+                      <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-8 border-b border-gray-100 pb-2 sm:pb-4">
                         <div className="w-2 h-8 bg-blue-600 rounded-full"></div>
                         <h3 className="text-2xl font-bold text-gray-800">
                           {jur.jurusan}
                         </h3>
                       </div>
-                      <div className="flex flex-wrap justify-center gap-8">
+                      <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
                         {jur.data.map(renderCard)}
                       </div>
                     </div>
@@ -284,13 +284,13 @@ export default function Kandidat() {
 
       {/* Modern Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6">
           <div
             className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"
             onClick={() => setSelected(null)}
           ></div>
 
-          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-all scale-100">
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md sm:max-w-2xl md:max-w-4xl max-h-[90vh] overflow-y-auto transform transition-all scale-100">
             <button
               onClick={() => setSelected(null)}
               className="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-500 hover:text-red-500 p-2 rounded-full transition-colors shadow-sm backdrop-blur-sm"
@@ -313,7 +313,7 @@ export default function Kandidat() {
 
             <div className="flex flex-col md:flex-row">
               {/* Left Column: Image & Basic Info */}
-              <div className="md:w-2/5 bg-gray-50 p-8 flex flex-col items-center text-center border-r border-gray-100">
+              <div className="md:w-2/5 bg-gray-50 p-4 sm:p-8 flex flex-col items-center text-center border-r border-gray-100">
                 <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg mb-6 group">
                   {selected.foto_pasangan ? (
                     <img
@@ -359,7 +359,7 @@ export default function Kandidat() {
               </div>
 
               {/* Right Column: Details */}
-              <div className="md:w-3/5 p-8 md:overflow-y-auto max-h-[90vh]">
+              <div className="md:w-3/5 p-4 sm:p-8 md:overflow-y-auto max-h-[90vh]">
                 {/* Jurusan untuk Gubernur */}
                 {selected.jurusan && (
                   <div className="mb-6 text-center">
